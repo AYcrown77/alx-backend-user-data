@@ -9,6 +9,22 @@ import re
 import os
 
 
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """functoion that returns a connector to the database"""
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+    db_username = os.getenv("PERSONAL_DATA_DB_USERNAME")
+    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD")
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST")
+    db = mysql.connector.connect(
+        database=db_name if db_name else 'my_db',
+        host=db_host if db_host else 'localhost',
+        user=db_username if db_username else 'root',
+        password=db_password if db_password else 'root'
+    )
+
+    return db
+
 def get_logger() -> logging.Logger:
     """function that returns a logging user data"""
     new_logger = logging.Logger("user_data")
