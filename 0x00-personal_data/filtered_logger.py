@@ -1,11 +1,24 @@
 #!/usr/bin/env python3
 """Handling personal data with the logging module"""
 
-
 from typing import List
+import mysql.connector
+import csv
 import logging
 import re
 import os
+
+
+def get_logger() -> logging.Logger:
+    """function that returns a logging user data"""
+    new_logger = logging.Logger("user_data")
+    new_logger.setLevel(logging.INFO)
+    new_logger.propagate = False
+
+    handlers = logging.StreamHandler()
+    handlers.setFormatter(RedactingFormatter(PII_FIELDS))
+    new_logger.addHandler(handlers)
+    return new_logger
 
 
 def filter_datum(fields: List[str], redaction: str,
