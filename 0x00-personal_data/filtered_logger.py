@@ -66,3 +66,31 @@ class RedactingFormatter(logging.Formatter):
         """
         log: logging.Formatter = super().format(record)
         return filter_datum(self.fields, self.REDACTION, log, self.SEPARATOR)
+
+
+    def main():
+    """
+    Function use all the above functions
+    to read from a database
+    """
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute('SELECT * FROM users;')
+    rows = cursor.fetchall()
+
+    logger = get_logger()
+    field_names = [i[0] for i in cursor.description]
+
+    for row in rows:
+        msg = ''
+        for field in range(len(row)):
+            msg += f'{field_names[field]}={row[field]};' 
+        logger.info(msg)
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
