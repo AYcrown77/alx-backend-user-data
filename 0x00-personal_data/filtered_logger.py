@@ -9,7 +9,6 @@ import re
 import os
 
 
-
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """functoion that returns a connector to the database"""
     db_name = os.getenv("PERSONAL_DATA_DB_NAME")
@@ -24,6 +23,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     )
 
     return db
+
 
 def get_logger() -> logging.Logger:
     """function that returns a logging user data"""
@@ -43,7 +43,7 @@ def filter_datum(fields: List[str], redaction: str,
     new = message
     for field in fields:
         new = re.sub(field + "=.*?" + separator,
-                      field + "=" + redaction + separator, new)
+                     field + "=" + redaction + separator, new)
     return new
 
 
@@ -68,7 +68,7 @@ class RedactingFormatter(logging.Formatter):
         return filter_datum(self.fields, self.REDACTION, log, self.SEPARATOR)
 
 
-    def main():
+def main():
     """
     Function use all the above functions
     to read from a database
@@ -85,7 +85,7 @@ class RedactingFormatter(logging.Formatter):
     for row in rows:
         msg = ''
         for field in range(len(row)):
-            msg += f'{field_names[field]}={row[field]};' 
+            msg += f'{field_names[field]}={row[field]};'
         logger.info(msg)
 
     cursor.close()
