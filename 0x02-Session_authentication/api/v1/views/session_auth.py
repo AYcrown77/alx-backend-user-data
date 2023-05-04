@@ -29,11 +29,11 @@ def login():
     if not usr:
         return jsonify({"error": "no user found for this email"}), 404
 
-    user = usr[0]
-    if not user.is_valid_password(pwd):
+    usr = usr[0]
+    if not usr.is_valid_password(pswd):
         return jsonify({"error": "wrong password"}), 401
-    session_id = auth.create_session(user.id)
+    session_id = auth.create_session(usr.id)
     session_name = getenv("SESSION_NAME")
-    response = jsonify(user.to_json())
-    response.set_cookie(session_name, session_id)
-    return response
+    resp = jsonify(usr.to_json())
+    resp.set_cookie(session_name, session_id)
+    return resp
