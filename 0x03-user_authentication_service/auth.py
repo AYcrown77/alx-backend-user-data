@@ -47,4 +47,5 @@ class Auth:
     def _generate_uuid(self) -> str:
         """Generates a new uuid and returns string format"""
         from uuid import uuid4
+
         return str(uuid4())
