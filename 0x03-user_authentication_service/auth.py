@@ -19,10 +19,11 @@ def _hash_password(password: str) -> bytes:
     return hash_pwd
 
 
-def _generate_uuid() -> str:
-    """generate and return a uuid string"""
-    new_id = str(uuid4())
-    return new_id
+def _generate_uuid(self) -> str:
+    """Generates a new uuid"""
+    from uuid import uuid4
+
+    return str(uuid4())
 
 
 class Auth:
